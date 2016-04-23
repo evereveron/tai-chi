@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head><title></title>
+        <style type="text/css">
+            html {
+                height: 100%;
+                width: 100%;
+            }
+            body {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                border: none;
+                overflow: hidden;
+            }
+            div.videocontainer {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                position: relative;
+            }
+            #videoCall {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                background: transparent;
+                z-index: 0;
+            }
+        </style>
+        <script type="text/javascript">
+            var iframetimeout = null;
+            var videoObject = null;
+            var videoObjectId = '';
+
+            function addEvent(obj, name, func) {
+                if (window.addEventListener) {
+                    obj.addEventListener(name, func, false); 
+                } else {
+                    obj.attachEvent('on' + name, func);
+                }
+            }
+
+            function videopluginLoaded(obj) {
+                window.opener._cwic_onPopupVideoPluginLoaded(obj, window);
+            }
+
+            function onPageLoad() {
+                var win = window, doc = document;
+
+                window.$ = window.jQuery = window.opener.jQuery;
+
+                window.onbeforeunload= function () {
+                    window.opener.popupUnloaded(win,'videoCall');
+                };
+
+                jQuery('#vidcontainer', document).cwic('createVideoWindow', {
+                    window: win,
+                    id: 'videoCall',
+                    onload: "videopluginLoaded",
+                    success: function(id) {
+                        win.videoObject = $('#' + id, doc)[0];
+                        window.opener.popupVideoObjectLoaded(win, 'videoCall');
+                }});
+
+            }
+        </script>
+    </head>
+<body onload="onPageLoad()">
+    <div class="videocontainer">
+        <div id="vidcontainer" style="height: 100%;width: 100%; margin: 0; padding: 0" tabindex="2"></div>
+    </div>
+</body>
+</html>

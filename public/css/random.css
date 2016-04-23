@@ -1,0 +1,26 @@
+.center {
+	text-align: center;
+}
+
+.title {
+	font-size: 70px;
+	padding-top: 80px;
+}
+
+#gif {
+	padding-top: 40px;
+	padding-bottom: 30px;
+}
+
+#caption {
+	font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 20px;
+}
+
+#randomButt {
+	font-size: 20px;
+}
+
+#cisco {
+	margin-left: 27%;
+}

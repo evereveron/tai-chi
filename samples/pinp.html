@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head><title></title>
+        <style type="text/css">
+            html {
+                height: 100%;
+                width: 100%;
+            }
+            body {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                border: none;
+                overflow: hidden;
+            }
+            div.videocontainer {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                position: relative;
+            }
+            #videoCall {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                background: transparent;
+                z-index: 0;
+            }
+            iframe#controls {
+                border: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                z-index: 1;
+                position: absolute;
+                background-color: rgba(0,0,0,0.25);
+                height: 40px;
+                width: 50%;
+                left: 25%;
+                bottom: 5%;
+            }
+        </style>
+        <script type="text/javascript">
+            var iframetimeout = null;
+            var videoObject = null;
+            var videoObjectId = '';
+            var win = window;
+            var doc = document;
+
+            function videopluginLoaded(obj) {
+                window.parent._cwic_onPopupVideoPluginLoaded(obj,window);
+            }
+            window.createVideoWindow = function() {
+                jQuery('#vidcontainer',doc).cwic('createVideoWindow',{"window":win,id: 'videoCall', onload: "videopluginLoaded", success: function(id) {
+                    videoObject = $('#'+id,document)[0];
+                    parent.pinpLoaded(window,'videoCall');
+                }});
+            }
+
+            function onPageLoad() {
+                window.$ = window.jQuery = window.parent.jQuery;
+                jQuery(document,document).ready(function() {
+                    window.parent.pinpLoaded(window);
+                });
+                window.onbeforeunload= function() {try {window.parent.pinpUnloaded(win,'videoCall');}catch(e) {}};
+            }
+        </script>
+    </head>
+<body onload="onPageLoad()"><div id="vidcontainer" style="height: 100%;width: 100%; margin: 0; padding: 0" tabindex="2"></div></body>
+</html>

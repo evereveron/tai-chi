@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<!--
+This example shows how you can control when the access control dialog is 
+displayed.  If you provide a delayedUserAuth callback to cwic('init'), your app 
+is responsible for calling cwic('showUserAuthorization') if necessary.  If you 
+don't provide the callback, cwic('init') automatically shows the access control 
+dialog if the website's domain hasn't been whitelisted if the user didn't 
+previously press the always allow button for the website's domain.
+
+Once cwic('init')'s delayedUserAuth or ready callback has been called, you may 
+call cwic('getUserAuthStatus') at any time to determine whether the domain is 
+authorized or not.
+
+No CWIC API calls can be made until either the 'ready' or 'delayedUserAuth' 
+callback has been called.  The callback is the app's indication that the 
+asynchronous plug-in load is complete.
+-->
+
+<html>
+<head>
+
+<!-- ciscobase.js contains jQuery and some helper functions -->
+<script type="text/javascript" src="../src/ciscobase.js"></script>
+    <script type="text/javascript" src="../src/cwic/cwic.js"></script>
+
+<script type="text/javascript">
+
+$(function() {
+    $('#login').attr('disabled', true);
+    $('#authorize').attr('disabled', true);
+
+    $('#container').cwic('init', {
+        verbose: true,
+        serviceDiscovery: false,
+        ready: function() {
+            $('#login').attr('disabled', false);
+
+            // Now that the plug-in is authorized, disable the authorize button.
+            $('#authorize').attr('disabled', true);
+            
+            $('#auth-status').css('color', 'black');
+            $('#auth-status').text('Plug-in authorized');
+
+            // Show the version
+            var version = $('#container').cwic('about').plugin.version.plugin; 
+            $('#status-area').text('Plugin version: ' + version);
+        },
+        error: function(status) {
+            $('#status-area').text(status.message);
+        },
+        // The presence of this callback prevents the access control dialog 
+        // from being displayed when the plug-in is loaded.
+        delayedUserAuth: function() {
+            $('#auth-status').text('Plug-in not authorized');
+            $('#auth-status').css('color', 'red');
+            
+            // Show the version
+            var version = $('#container').cwic('about').plugin.version.plugin; 
+            $('#status-area').text('Plugin version: ' + version);
+
+            // The plug-in is loaded, so enable the Authorize button.
+            $('#authorize').attr('disabled', false);
+        }
+    });
+
+    $('#authorize').click(function() {
+        var authStatus = $('#container').cwic('getUserAuthStatus'); 
+        if(authStatus === 'MustShowAuth' || authStatus === 'UserDenied') {
+            // The access control dialog only gets displayed once.  If the user 
+            // previously pressed the Deny button, showUserAuthorization will not 
+            // display the dialog, and it will call the denied callback.  To see 
+            // the dialog again, the user must refresh the page.
+            $('#container').cwic('showUserAuthorization', {
+                denied: function() {
+                    $('#auth-status').text('Plug-in authorization denied by user');
+                    alert('Plug-in authorization denied by user');
+                }
+            });
+        }
+    });
+
+    $('#login').click(function() {
+        if (($('#container').cwic('about').capabilities.certValidation)) {
+            // the sample apps disable cert validation by default. 
+            $('#container').cwic('disableCertValidation');            
+        }
+        
+        $('#container').cwic('registerPhone', {
+            user: $('#userName').val(),
+            password: $('#password').val(),
+            cucm: $('#cucm').val(),
+            success: function() {
+                if($('#status-area').text().indexOf('login successful') === -1) {
+                    $('#status-area').text($('#status-area').text() + ' - login successful.');
+                }
+            }
+        });
+    });
+
+});
+    
+</script>
+
+<style>
+
+#login-area {
+    border: 1px solid black;
+    width: 300px;
+}
+
+#login-area label {
+    width: 6em;
+    display: inline-block;
+}
+
+#login-area li {
+    list-style: none;
+}
+
+#login-area ul {
+    padding-left: 5px;
+}
+
+#status-area {
+    font-size: x-small;
+}
+
+
+</style>
+
+
+<title>Access Control Dialog Example</title>
+</head>
+
+<body>
+
+<div id='login-area'>
+    <ul>
+        <li><span id='auth-status'></span></li>
+        <li><input type='button' id='authorize' value='Authorize Plug-in'/></li>
+        <li><label for='cucm'>CUCM: </label><input type='text' id='cucm'/></li>
+        <li><label for='userName'>User Name: </label><input type='text' id='userName'/><li>
+        <li><label for='password'>Password: </label><input type='password' id='password'/></li>
+        <li><input type='button' id='login' value='Login'/></li>
+        <li><span id='status-area'></span></li>
+    </ul>
+</div>
+
+<div id='container'></div>
+
+</body>
+</html>

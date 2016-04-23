@@ -1,0 +1,474 @@
+        body {
+            font-size: 12px;
+        }
+        
+        button#showpinpvideo {
+            width: 60px;
+            height: 20px;
+            position: relative;
+            border: 1px solid black;
+            vertical-align: middle;
+        }
+        
+        button#showpinpvideo div.pinp {
+            position: absolute;
+            width: 25%;
+            height: 25%;
+            border: 1px solid black;
+            background: #ffffff;
+        }
+        
+        button#showpinpvideo.off div.pinp {
+            border: #444;
+            background: #ccc;
+            top: 37%;
+            left: 37%;
+        }
+        
+        button#showpinpvideo.topleft div.pinp {
+            top: 10%;
+            left: 10%;
+        }
+        
+        button#showpinpvideo.topright div.pinp {
+            top: 10%;
+            left: 65%;
+        }
+        
+        button#showpinpvideo.bottomleft div.pinp {
+            top: 65%;
+            left: 10%;
+        }
+        
+        button#showpinpvideo.bottomright div.pinp {
+            top: 65%;
+            left: 65%;
+        }
+        
+        div.alignright {
+            float: right;
+            padding-left: 3px;
+            padding-bottom: 3px;
+        }
+        
+        #mansignindetails {
+            width: 300px;
+            border: 1px solid black;
+        }
+        
+        #mansignindetails label {
+            width: 30%;
+            text-align: right;
+            display: inline-block;
+        }
+        
+        #mansignindetails input,
+        #mansignindetails select {
+            margin: 2px 0 0 0;
+        }
+        
+        #mansignindetails input[type="text"],
+        #mansignindetails input[type="password"] {
+            width: 55%;
+            padding-left: 4px;
+        }
+        
+        #mansignindetails h3 {
+            margin: 5px;
+        }
+        
+        #aboutcontainer {
+            font-size: 10px;
+            text-align: right;
+            border: 1px solid black;
+            margin: 2px;
+            padding: 2px;
+        }
+        
+        #sdstart,
+        #sdemailrequired,
+        #sdcredentialsrequired,
+        #sdssosigninfailed,
+        #signout,
+        #devicedetails,
+        #sdssoinprogress,
+        #sdsignedin {
+            width: 300px;
+            border: 1px solid black;
+        }
+        
+        #sdstart *,
+        #sdemailrequired *,
+        #sdcredentialsrequired *,
+        #sdssosigninfailed *,
+        #signout *,
+        #devicedetails *,
+        #sdssoinprogress *,
+        #sdsignedin * {
+            margin: 5px;
+        }
+        
+        #signout {
+            border-style: none;
+        }
+        
+        .signinview input,
+        .signinview label,
+        .signinview select {
+            margin: 2px 0px 0px 5px !important;
+        }
+        
+        .signinview label {
+            width: 100px;
+        }
+        
+        #devicedetails label {
+            display: inline-block;
+            width: 80px;
+            text-align: right;
+        }
+        
+        #devicedetails select#devices {
+            width: 180px;
+        }
+        
+        #devicedetails select#lines {
+            width: 80px;
+        }
+        
+        #devicedetails div {
+            margin: 0;
+        }
+        
+        #devicedetails #connectbtn {
+            margin-left: 98px;
+        }
+        
+        #signoutbtn {
+            padding: 0px;
+            margin-right: 0px;
+            margin-left: 236px;
+        }
+        
+        .manualsignin,
+        .showinitialiew,
+        .cancelsso,
+        .reset {
+            color: blue;
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        #signinbtn {
+            margin-left: 5px;
+            margin-top: 5px;
+        }
+        
+        ul#calllist,
+        ul#calllist li {
+            width: 400px;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        ul#calllist li.selected {
+            background: #ccc;
+        }
+        
+        ul#calllist li span {
+            padding: 3px;
+        }
+        
+        ul#calllist li span.controls {
+            display: none;
+        }
+        
+        div.videocontainer {
+            height: 100%;
+            width: 100%;
+        }
+        
+        div#videocontainer {
+            position: relative;
+            height: 273px;
+            min-width: 364px;
+            overflow: hidden;
+            background-color: #c0c0c0;
+            resize: both;
+            padding: 5px;
+            border: 1px solid #808080;
+        }
+        
+        /*
+          TODO: 
+          maybe use an #id selector instead of element type?
+        */
+        div#videocontainer object {
+            height: 100%;
+            width: 100%;
+        }
+        
+        div.alignleft {
+            float: left;
+            display: inline-block;
+            padding-left: 3px;
+            padding-bottom: 3px;
+        }
+        
+        div#localPreviewContainer {
+            border: 1px solid black;
+            margin: 2px;
+            padding: 2px;
+        }
+        
+        div#localPreviewContainer object {
+            min-height: 150px;
+            height: 100%;
+            width: 100%;
+            max-width: 400px;
+            max-height: 300px;
+        }
+        
+        div#localPreviewContainer div#localPreviewDockingElement {
+            min-height: 150px;
+            height: 100%;
+            width: 100%;
+            max-width: 400px;
+            max-height: 300px;
+        }
+        
+        div#localPreviewContainer div#localvidcontainer {
+            min-height: 150px;
+            min-width: 308px;
+            max-width: 400px;
+            max-height: 300px;
+            resize: both;
+            overflow: hidden;
+            padding: 5px;
+            border: 1px solid #808080;
+            background-color: #c0c0c0;
+        }
+        
+        div.mmDevices {
+            border: black solid 1px;
+            width: 320px;
+            height: 240px;
+            margin: 2px;
+            padding: 2px;
+        }
+        
+        div.mmDevices button {
+            float: right;
+        }
+        
+        div.mmDevices select {
+            width: 62%;
+            float: right;
+            height: 22px;
+        }
+        
+        div.mmDevices input {
+            margin: 0 0 0 4px;
+            height: 22px;
+        }
+        
+        div.mmDevices label {
+            width: 36%;
+            text-align: right;
+            display: inline-block;
+            height: 22px;
+        }
+        
+        div.externalwindow {
+            border: black solid 1px;
+            width: 320px;
+            margin: 2px;
+            padding: 2px;
+        }
+        
+        div.callcontainer {
+            /*
+            width:300px;
+            height:85px;
+            */
+            
+            display: none;
+            background-color: AliceBlue;
+            border: 1px solid #aaaaaa;
+            vertical-align: top;
+        }
+        
+        div.callcontainer div.remotename {
+            /*
+            float: left;
+            width: 300px;
+            */
+            
+            height: 30px;
+            background-color: LightGray;
+        }
+        
+        div.callcontainer div.callinfo {
+            /*
+            float: left;
+            width: 300px;
+            */
+            
+            height: 30px;
+        }
+        
+        div.callcontainer button.endbtn,
+        div.callcontainer button.holdresumebtn,
+        div.callcontainer button.muteaudiobtn,
+        div.callcontainer button.mutevideobtn,
+        div.incomingcontainer button.answerbtn,
+        div.incomingcontainer button.divertbtn {
+            float: right;
+        }
+        
+        button.fullscreenbtn {
+            display: none;
+        }
+        
+        div.incomingcontainer {
+            float: left;
+            width: 200px;
+            height: 60px;
+            background-color: CadetBlue;
+        }
+        
+        div.incomingcontainer div.message {
+            float: left;
+            width: 200px;
+            height: 30px;
+        }
+        
+        iframe#pinpwindow {
+            position: absolute;
+            border: 0;
+            margin: 0;
+            padding: 0;
+            width: 25%;
+            height: 25%;
+        }
+        
+        iframe#pinpwindow.off {
+            display: none;
+        }
+        
+        iframe#pinpwindow.topleft {
+            top: 5%;
+            left: 5%;
+        }
+        
+        iframe#pinpwindow.bottomleft {
+            top: 70%;
+            left: 5%;
+        }
+        
+        iframe#pinpwindow.topright {
+            top: 5%;
+            left: 70%;
+        }
+        
+        iframe#pinpwindow.bottomright {
+            top: 70%;
+            left: 70%;
+        }
+        
+        .title {
+            /*text-align: center;*/
+            
+            text-align: left;
+            margin-top: 10px;
+        }
+        
+        #header {
+            height: 45px;
+            position: relative;
+            z-index: 100;
+            min-width: 675px;
+            /* min width for the tabs, before they wrap */
+            
+            padding: 0 00px;
+            border-bottom: 2px solid #2970A6;
+        }
+        
+        #headerLeft {
+            position: absolute;
+            padding: 10px 0 0;
+            left: 8px;
+            bottom: 0px;
+            width: 600px;
+        }
+        
+        #headerLeft img {
+            border: none;
+        }
+        
+        #headerRight {
+            position: absolute;
+            right: 0;
+            bottom: 0px;
+            padding: 0;
+            text-align: right;
+        }
+        
+        #header_links {
+            font-size: 20px;
+        }
+        
+        #logo {
+            float: left;
+            width: 20%;
+        }
+        
+        #title {
+            float: right;
+            width: 80%;
+            padding-top: 10px;
+        }
+        
+        .logframe {
+            outline: black solid 1px;
+            width: 320px;
+        }
+        
+        #logwindow {
+            height: 100px;
+            max-height: 100px;
+            width: 310px;
+            overflow: auto;
+        }
+        
+        #transferNum {
+            width: 50px;
+        }
+
+        #invalidcertcontainer {
+            display: none;
+            border-style: solid;
+            width: 300px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            margin-left: -150px;
+            background: #BABABA;
+            padding: 5px;
+            z-index: 101;
+            border-width: thin;
+        }
+        
+        #top-left-x, 
+        #top-left-y, 
+        #bottom-right-x, 
+        #bottom-right-y {
+            width: 30px;
+        }
+        
+        #top-left-x, 
+        #top-left-y {
+            margin-left: 24px; 
+        }

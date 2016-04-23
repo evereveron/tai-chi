@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Video Call Demo</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script src="../src/ciscobase.js"></script>
+    <script type="text/javascript" src="../src/cwic/cwic.js"></script>
+    <script type="text/javascript" src="js/fullscreen.js"></script>
+    <script type="text/javascript" src="js/sample_helpers.js"></script>
+    <script type="text/javascript" src="js/sample.js"></script>
+</head>
+
+<body>
+    <div id="doc_wrapper">
+        <!--  begin header -->
+        <div id="header">
+            <div id="headerLeft">
+                <div>
+                    <div id="logo">
+                        <a href="https://www.cisco.com" target="_blank"><img src="./img/ciscologo_grey.jpg" alt="Cisco">
+                        </a>
+                    </div>
+                    <div id="title">
+                        <h2 style="display:inline;">Video Call Demo</h2>
+                    </div>
+
+                </div>
+                <div style="clear:both"></div>
+
+            </div>
+            <div id="headerRight">
+                <div id="header_links">
+                    <a target="_blank" href="http://jabberdeveloper.com/start-here">What Next?</a>
+                </div>
+            </div>
+            <div class="title"></div>
+        </div>
+        <!-- header -->
+
+
+        <div class="alignright">
+
+            <div id="signout">
+                <button id="signoutbtn" type="button" disabled="true">Sign Out</button>
+            </div>
+            <!-- sd = service discovery -->
+            <div id="sdstart" class="signinview">
+                <h3>Service discovery based sign in</h3>
+                <p>Server cluster and sign in type is discovered automatically.</p>
+                <p>Sign in type could be SSO or credential based.</p>
+                <p>Click "Start Discovery" button to start service discovery lifecycle or click "Manual Setup and Sign In" to
+                    manually set sign in parameters.</p>
+                <hr>
+                <label for="sdforcereg">Force Reg:</label>
+                <input type="checkbox" id="sdforcereg" checked>
+
+                <label for="sdmode">Mode:</label>
+                <select id="sdmode">
+                    <option value="SoftPhone">SoftPhone</option>
+                    <option value="DeskPhone">DeskPhone</option>
+                </select>
+                <br>
+                <button id="startdiscovery" type="button">Start Discovery</button>
+
+                <p class="manualsignin">Manual Setup and Sign In</p>
+                <p class="reset">Reset</p>
+            </div>
+            <div id="sdssoinprogress" class="signinview">
+                <h3>Single Sign On in progress</h3>
+                <p>Popup window should open.</p>
+                <p>Waiting for token...</p>
+                <hr>
+                <b>Navigating to URL: </b>
+                <p id="sdssourl" style="word-wrap: break-word;"></p>
+                <p class="cancelsso">Cancel Single Sign On</p>
+            </div>
+            <div id="sdsignedin" class="signinview">
+                <h3>Signed In</h3>
+                <p>"devicesAvailable" callback should be called next, providing the list of telephony devices...</p>
+                <b>Important Note:</b>
+                <p>"devicesAvailable" callback may be called multiple times!</p>
+            </div>
+            <div id="sdemailrequired" class="signinview">
+                <h3>Lifecycle state: User Profile Email Required</h3>
+                <p>User profile does not exist. This state is reached when plugin is used for the first time, after reset data
+                    API call or if discovery error occurs.</p>
+                <br/>
+                <form autocomplete="off">
+                    <h4>Please provide email address:</h4>
+                    <input type="text" id="sdEmail" placeholder="Enter email here">
+                    <button id="sdSetEmail" type="submit">Submit Email</button>
+                </form>
+                <p class="showinitialiew">Show Initial View</p>
+                <p class="status"><b>Status message:</b>
+                </p>
+                <p><b class="status" id="sdEmailReqStatus"></b>
+                </p>
+            </div>
+            <div id="sdcredentialsrequired" class="signinview">
+                <h3>Lifecycle state: User Credentials Required</h3>
+                <p>This state is reached when non-SSO sign out occurs or there was an authentication error during non-SSO sign
+                    in
+                </p>
+                <br/>
+                <form autocomplete="off">
+                    <h4>Please provide user credentials:</h4>
+                    <input type="text" id="sdUsername" placeholder="Enter username here">
+                    <input type="password" id="sdPassphrase" placeholder="Enter passphrase here">
+                    <button id="sdCredentialsSubmit" type="submit">Submit Credentials</button>
+                </form>
+                <p class="status"><b>Status message:</b>
+                </p>
+                <p><b class="status" id="sdCredReqStatus"></b>
+                </p>
+                <p class="showinitialiew">Show Initial View</p>
+                <p class="manualsignin">Manual Setup and Sign In</p>
+            </div>
+            <div id="sdssosigninfailed" class="signinview">
+                <h3>Lifecycle state: SSO Sign In Required</h3>
+                <p>This state is reached when SSO sign out occurs or there was an authentication error during SSO sign in</p>
+                <br/>
+                <form autocomplete="off">
+                    <h4>Please click "Sign In" button to continue with SSO sign in or click "Manual Setup and Sign In" to proceed with manual sign in:</h4>
+                    <button id="sdsignin" type="submit">Sign In</button>
+                </form>
+                <p class="showinitialiew">Show Initial View</p>
+                <p class="status"><b>Status message:</b>
+                </p>
+                <p><b class="status" id="sdssosigninstatus"></b>
+                </p>
+                <p class="manualsignin">Manual Setup and Sign In</p>
+                <p class="reset">Reset</p>
+            </div>
+            <div id="mansignindetails" class="signinview">
+                <form autocomplete="off">
+                    <h3>Manual Setup and Sign In</h3>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Enter username here">
+                    <br>
+                    <label for="password">Passphrase:</label>
+                    <input type="password" id="password" placeholder="Enter passphrase here" />
+                    <br>
+                    <label for="cucm">CUCM:</label>
+                    <input type="text" id="cucm" placeholder="Enter CUCM address here">
+                    <br>
+                    <label for="mode">Mode:</label>
+                    <select id="mode">
+                        <option value="SoftPhone">SoftPhone</option>
+                        <option value="DeskPhone">DeskPhone</option>
+                    </select>
+                    <br>
+                    <label for="forcereg">Force Reg:</label>
+                    <input type="checkbox" id="forcereg" checked>
+                    <br>
+
+                    <label for="signinbtn"></label>
+                    <button id="signinbtn" type="submit">Sign In</button>
+                </form>
+                <br />
+                <p class="showinitialiew" style="margin: 5px">Show Initial View</p>
+            </div>
+            <br>
+            <div id="devicedetails">
+                <h3>Device selection</h3>
+                <div id="deviceselectioncontainer">
+                    <label for="devices">Device:</label>
+                    <select id="devices"></select>
+                    <button id="connectbtn" type="button" disabled>Connect</button>
+                </div>
+
+
+                <!-- // multiline -->
+                <div id='currentlinecontainer'>
+                    <label for="currentmode">Current mode:</label><span style="font-size: 14px;padding-left:5px;" id="currentmode"></span>
+                    <br>
+                    <label for="currentline">Active line:</label><span style="font-size: 14px;padding-left:5px;" id="currentline"></span>
+                </div>
+                <div id='linesdetails'>
+                    <label for="lines">Available lines:</label>
+                    <select id="lines"></select>
+                    <button id="changelinebtn" type="button">Change line</button>
+                </div>
+                <!-- // \multiline -->
+                <br />
+            </div>
+            <br>
+            <div id="aboutcontainer">
+                <h3>System info</h3>
+                <div><span>cwic version: </span><span id="jsversion"></span>
+                </div>
+                <div><span id="jssystem_release"></span>
+                </div>
+                <div><span>jQuery version: </span><span id="jqueryversion"></span>
+                </div>
+                <hr>
+                <div><span>plugin Version: </span><span id="pluginversion"></span>
+                </div>
+                <div><span id="pluginsystem_release"></span>
+                </div>
+                <hr>
+                <div><span>extension Version: </span><span id="channelversion">N/A</span>
+                </div>
+                <div><span id="channelsystem_release"></span>
+                </div>
+            </div>
+        </div>
+
+        <div id="phonecontainer"></div>
+        <label for="dntodial" id="dnlabel">Number (and DTMF):</label>
+        <input type="text" id="dntodial">
+        <button type="button" id="callbtn" disabled="true">Make Call</button>
+        <input type="checkbox" id="videocall">with Video
+        <button type="button" id="switchmodebtn" disabled="true">Switch Phonemode</button>
+        <br>
+        <ul id="calllist" class="calllist"></ul>
+        <div id="msgcontainer"></div>
+
+        <div class="alignleft">
+            <div id="localPreviewContainer">Local Preview
+                <div id="localvidcontainer" tabindex="998"></div>
+                <input name="showlocalvideo" type="radio" value="On">On
+                <input name="showlocalvideo" type="radio" checked="checked" value="Off">Off
+                <br>
+            </div>
+
+            <div id="mmDevices" class="mmDevices">
+                <h3>Multimedia Devices<button type="button" class="refreshMMDevices">Refresh Devices</button></h3>
+                <label for="recordingDevicesSelect">Recording Device:</label>
+                <select name="recordingDevicesSelect" id="recordingDevicesSelect"></select>
+                <label for="playoutDevicesSelect">Playout Device:</label>
+                <select name="playoutDevicesSelect" id="playoutDevicesSelect"></select>
+                <label for="captureDevicesSelect">Capture Device:</label>
+                <select name="captureDevicesSelect" id="captureDevicesSelect"></select>
+                <label for="ringerDevicesSelect">Ringer Device:</label>
+                <select name="ringerDevicesSelect" id="ringerDevicesSelect"></select>
+                <br>
+                <label for="speakervolumecontrol" id="spvolumelabel">Speaker volume: </label>
+                <input type="text" id="speakervolumecontrol" size="5" placeholder="0-100"></input>
+                <button type="button" id="speakervolumebtn">Set volume</button>
+                <label for="ringervolumecontrol" id="rgvolumelabel">Ringer volume: </label>
+                <input type="text" id="ringervolumecontrol" size="5" placeholder="0-100"></input>
+                <button type="button" id="ringervolumebtn">Set volume</button>
+                <label for="microphonevolumecontrol" id="micvolumelabel">Microphone volume: </label>
+                <input type="text" id="microphonevolumecontrol" size="5" placeholder="0-100"></input>
+                <button type="button" id="micvolumebtn">Set volume</button>
+                <label for="ringtonesSelect">Ringtone:</label>
+                <select name="ringtonesSelect" id="ringtonesSelect"></select>
+            </div>
+
+            <div id="externalwindow" class="externalwindow">
+                <h3>ExternalWindow</h3>
+                <div>
+                    <button id="externalpreview" class="externalbtns" type="button" disabled="true">Open Preview</button>
+                    <button id="closeexternalwindow" class="externalbtns" type="button" disabled="true">Close Preview</button>
+                    <button id="togglecontrols" class="externalbtns" type="button" disabled="true">Toggle Controls</button>
+                    <button id="togglepipborder" class="externalbtns" type="button" disabled="true">Toggle PiP Border</button>
+                </div>
+
+                <div style="margin: 5px 0px 5px 0px;">
+                    <button type="button" class="dockbtn externalbtns" disabled="true">Dock External Window</button>
+                    <button type="button" class="undockbtn externalbtns" disabled="true">Undock External Window</button>
+                </div>
+
+                <div>
+                    <h4>Position of self view window</h4>
+                    <div>Top-left X:
+                        <input type="text" id="top-left-x">
+                    </div>
+                    <div>Top-left Y:
+                        <input type="text" id="top-left-y">
+                    </div>
+                    <div>Bottom-right X:
+                        <input type="text" id="bottom-right-x">
+                    </div>
+                    <div>Bottom-right Y:
+                        <input type="text" id="bottom-right-y">
+                    </div>
+                    <button id="selfview-position-btn">Set</button>
+                </div>
+
+                <br/>
+                <input type="checkbox" class="externalbtns" id="alwaysOnTop" disabled="true" checked />Always On Top</br>
+                <input type="checkbox" class="externalbtns" id="showSelfViewPip" disabled="true" checked />Show Self View Pip During Call
+                <br/>
+            </div>
+
+            <div id="incomingcontainer" class="incomingcontainer" style="display:none">
+                <div class="message"></div>
+                <button type="button" class="answerbtn">Answer</button>
+                <button type="button" class="divertbtn">iDivert</button>
+            </div>
+
+            <div id="invalidcertcontainer">
+                <h3>Received invalid certificate</h3>
+                <p>Certificate details:</p>
+                <table id="certdetailstable">
+                    <tr>
+                        <td>Identifier:</td>
+                        <td class="identifier"></td>
+                    </tr>
+                    <tr>
+                        <td>Subject CN:</td>
+                        <td class="subjectCN"></td>
+                    </tr>
+                    <tr>
+                        <td>Reference ID:</td>
+                        <td class="reference"></td>
+                    </tr>
+                    <tr>
+                        <td>Invalid reason:</td>
+                        <td class="reason"></td>
+                    </tr>
+                </table>
+                <div id="responsebuttons">
+                    <button class="accept">Accept</button>
+                    <button class="reject">Reject</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="callcontainer" class="callcontainer">
+            <div class="remotename"></div>
+            <div class="callinfo"></div>
+            <div id="videocontainer">
+                <div class="videocontainer">
+                    <div id="remotevideocontainer" class="videocontainer" tabindex="999"></div>
+                    <iframe class="off" id="pinpwindow"></iframe>
+                </div>
+            </div>
+            <button type="button" class="muteaudiobtn">Mute Audio</button>
+            <button type="button" class="mutevideobtn">Mute Video</button>
+            <button type="button" class="holdresumebtn">Hold</button>
+            <button type="button" class="endbtn">End Call</button>
+            <button type="button" id="fullscreenbtn">Fullscreen!</button>
+            <button type="button" id="popoutbtn">Popout</button>
+            <button id="showpinpvideo" type="button" class="off">
+                <div class="pinp"></div>
+            </button>
+            <br>
+            <select id="conferencelist"></select>
+            <button type="button" id="conferencebtn" disabled="true">Conference</button>
+            <br>
+            <!--            <select id="transferlist"></select>-->
+            <label for="transferNum" id="transferNumLabel">Transfer to:</label>
+            <input type="text" id="transferNum">
+            <button type="button" id="transferbtn" disabled="true">Transfer</button>
+            <button type="button" id="completebtn" disabled="true">Complete</button>
+            <br>
+            <button type="button" class="escalatebtn">Escalate</button>
+        </div>
+
+    </div>
+    <!-- doc_wrapper -->
+
+</body>
+
+</html>
